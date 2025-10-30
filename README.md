@@ -47,3 +47,14 @@ This contract is a fully on-chain alternative — simple, transparent, free.
 From: 0x9872…f31c
 To:   0x096Ca4F83aB789e1020171F88420f36DA31d62CD
 tokenId: 4121280
+
+Once transferred, swaps in the mCRRX/WETH pool continue normally.
+
+Deployment cost
+
+≈ $0.1–0.2 in gas (on Base). No subscriptions, no fees.
+
+Disclaimer
+
+This code is provided "as is" without any warranty.
+Use at your own risk and verify all addresses before sending assets.
