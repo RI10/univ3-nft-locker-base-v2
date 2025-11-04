@@ -95,3 +95,15 @@ Use at your own risk and verify all addresses before sending assets.
 🧩 *Fix:* always test on small LPs first, verify all constructor parameters before final deployment.
 
 
+---
+
+## Recommendations (lessons learned)
+
+- **Verify before locking**: always verify the locker contract on BaseScan/Etherscan *before* transferring the LP NFT.
+- **Start tiny**: test with a small fresh LP and a very short lock (5–10 minutes). Only then repeat with real liquidity and a longer lock.
+- **Double-check constructor args**: `nftManager`, `tokenId`, `unlockTime`. A single wrong value = unusable locker.
+- **Prove ownership**: confirm `owner()` equals your deployer wallet and NPM `ownerOf(tokenId)` equals the locker address after transfer.
+- **Keep compiler settings fixed**: use `solc 0.8.26`, optimizer **ON**, runs **200**, EVM **default** — the same in Remix and in verification.
+- **Document the run**: store the locker address, tx hash of the NFT transfer, and a screenshot of `owner()/tokenId()/unlockTime()` for auditability.
+
+
