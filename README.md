@@ -58,3 +58,18 @@ Disclaimer
 
 This code is provided "as is" without any warranty.
 Use at your own risk and verify all addresses before sending assets.
+
+
+---
+
+## Known issues
+
+- **Contract verification** — Some deployments failed to verify on BaseScan due to mismatched compiler or JSON settings. Unverified contracts hide source and ABI, making interaction harder.
+- **Gas estimation failed** — When calling `withdrawNFT` in Remix, the transaction may revert with “Gas estimation failed”. Causes include:
+  - Caller is not the locker `owner`
+  - `unlockTime` not yet reached
+  - The NFT is no longer owned by the locker (already transferred or burned)
+- **Wrong constructor parameters** — If the locker was deployed with an incorrect `nftManager`, `tokenId`, or `unlockTime`, the NFT becomes unreachable.
+- **Unverified NonfungiblePositionManager** — When the NPM contract on Base is unverified, debugging ownership issues for tokenId is more difficult.
+- **No emergency unlock** — The minimal contract has no admin or emergency withdraw function. Once locked, NFT stays locked until `unlockTime`.
+
