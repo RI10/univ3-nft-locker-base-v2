@@ -106,4 +106,17 @@ Use at your own risk and verify all addresses before sending assets.
 - **Keep compiler settings fixed**: use `solc 0.8.26`, optimizer **ON**, runs **200**, EVM **default** — the same in Remix and in verification.
 - **Document the run**: store the locker address, tx hash of the NFT transfer, and a screenshot of `owner()/tokenId()/unlockTime()` for auditability.
 
+---
+
+## Verification notes (BaseScan & Remix settings)
+
+- **Compiler version:** `v0.8.26+commit.8a97fa7a`
+- **EVM version:** `default`
+- **Optimizer:** enabled, `runs = 200`
+- **Contract name:** `UniV3NFTLockerV2`
+- **License:** MIT
+
+**Constructor arguments (single line, comma-separated):**
+
+
 
