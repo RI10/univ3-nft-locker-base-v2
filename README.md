@@ -73,3 +73,25 @@ Use at your own risk and verify all addresses before sending assets.
 - **Unverified NonfungiblePositionManager** — When the NPM contract on Base is unverified, debugging ownership issues for tokenId is more difficult.
 - **No emergency unlock** — The minimal contract has no admin or emergency withdraw function. Once locked, NFT stays locked until `unlockTime`.
 
+---
+
+## Troubleshooting
+
+**1. Gas estimation failed**
+- Happens in Remix when trying to withdraw before `unlockTime`, or from a non-owner address.  
+- Also occurs if `tokenId` was never transferred to the locker (the contract holds nothing).  
+🧩 *Fix:* confirm you are the deployer, `unlockTime` has passed, and the NFT is inside the locker (`ownerOf(tokenId)` → locker address).
+
+**2. Verification error: “Unable to generate contract Bytecode and ABI”**
+- BaseScan sometimes fails if Remix uses “evmVersion: cancun” or optimization = 200 runs.  
+🧩 *Fix:* re-verify with compiler = `v0.8.26+commit.8a97fa7a`, optimization = 200, EVM = “default”, and paste parameters in single line.
+
+**3. Multi-line input not supported**
+- Happens if ABI-encoded constructor parameters are pasted with line breaks.  
+🧩 *Fix:* remove all newlines → paste as a single continuous string.
+
+**4. NFT not withdrawable**
+- Locker does not support emergency unlocks. If NFT was sent to wrong address or locked forever — it cannot be recovered.  
+🧩 *Fix:* always test on small LPs first, verify all constructor parameters before final deployment.
+
+
