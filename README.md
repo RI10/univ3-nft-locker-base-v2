@@ -132,4 +132,46 @@ Use at your own risk and verify all addresses before sending assets.
 - [ ] **Confirm** NFT is back on your wallet (`ownerOf(tokenId)` = your address).
 - [ ] Only after all checks **repeat** with real liquidity and a longer lock.
 
+---
+
+## Dry-run with a sacrificial LP-NFT (safe rehearsal)
+
+**Why:** The locker interacts specifically with Uniswap V3’s `NonfungiblePositionManager` (NPM).  
+Random ERC-721 “junk NFTs” will not work. Use a *tiny* Uniswap V3 LP position NFT as a sacrificial token.
+
+### Steps
+
+1. **Mint a micro position**  
+   - Network: **Base mainnet**  
+   - Pool: your target pair (e.g., mCRRX/WETH)  
+   - Fee tier: same as the real pool  
+   - Range: use a **wide range** (or full range) so the position is valid  
+   - Liquidity: **minimal amounts** (so losing it won’t hurt)  
+   - Result: you receive a **LP-NFT tokenId** from NPM
+
+2. **Deploy & verify the locker**  
+   - Compiler: `0.8.26`, optimizer **ON**, runs **200**, EVM **default**, license **MIT**  
+   - Constructor (short lock):  
+     ```
+     <NPM_address>, <tokenId>, 600
+     ```
+     where `600` = 10 minutes
+
+3. **Transfer the micro LP-NFT to the locker**  
+   - In Uniswap UI or via explorer call `safeTransferFrom` (NPM) to the locker address  
+   - Confirm on NPM: `ownerOf(tokenId)` must equal the **locker address**
+
+4. **Wait until unlock**  
+   - Ensure `unlockTime <= now` (read from the locker)
+
+5. **Withdraw rehearsal**  
+   - Call `withdrawNFT(<your_wallet_address>)` from the locker **owner**  
+   - Confirm NPM `ownerOf(tokenId)` now equals **your wallet**;  
+     the NFT should reappear in Uniswap → Pools
+
+### Notes & Safety
+
+- This is a **rehearsal** path: if something goes wrong, you only lose a *micro* LP, not real liquidity.  
+- Do **not** use unrelated ERC-721s; only Uniswap V3 LP NFTs from the **same NPM** address work.  
+- Keep screenshots / tx hashes of: deploy, transfer to locker, `ownerOf(tokenId)` before/after, withdraw call.  
 
