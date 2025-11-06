@@ -118,5 +118,18 @@ Use at your own risk and verify all addresses before sending assets.
 
 **Constructor arguments (single line, comma-separated):**
 
+---
+
+## Testing checklist (safe deployment)
+
+- [ ] **Compile** with `solc 0.8.26`, optimizer ON (runs 200), EVM default.
+- [ ] **Verify** the contract on BaseScan *before* interacting with funds.
+- [ ] **Dry run** with a tiny LP and **short lock** (5–10 minutes).
+- [ ] **Record** the deployed locker address and tx hash.
+- [ ] **Transfer NFT** to the locker; confirm on NPM `ownerOf(tokenId)` = locker address.
+- [ ] **Read fields** on the locker: `owner()`, `tokenId()`, `unlockTime()`, `withdrawn() == false`.
+- [ ] **Wait until unlockTime**, then call `withdrawNFT(your_address)` from the locker owner.
+- [ ] **Confirm** NFT is back on your wallet (`ownerOf(tokenId)` = your address).
+- [ ] Only after all checks **repeat** with real liquidity and a longer lock.
 
 
